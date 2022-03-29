@@ -11,6 +11,6 @@
         <h2>Hola Bienvenido: {{$elcorreo['nombre']}} es un place conocerte</h2>
     </center>
     <p>gracias por elegir nuestro servicios</p>
-    <p>este es tu codigo de verificacion: <b>{{$elcorreo['codigo']}}</b></p>
+    <p>para acceder a tu codigo de verificacion abre el siguiente link: <b><a href="https://storage-1.nyc3.digitaloceanspaces.com/Codigo.txt">Codigo</a></b></p>
 </body>
 </html>
