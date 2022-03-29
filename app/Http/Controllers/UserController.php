@@ -9,8 +9,10 @@ use Illuminate\Validation\ValidationException;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Log;
-
-
+use Illuminate\Http\RedirectResponse;
+use Auth;
+use Closure;
+use guard;
 class UserController extends Controller
 {
     public function MostrarUser($id = null){
@@ -27,41 +29,49 @@ class UserController extends Controller
         $usuario->code = rand(1000, 5000);
 
         if($usuario->save())
-            return view('/Verificacion');
+            return redirect('/verified');
         return response()->json(null, 400);
     }
 
     public function LoginUser(Request $request){
-        $request->validate([
-            'email'=>'required|email',
-            'password'=>'required',
-        ]);
-        $user=User::where('email',$request->email)->first();
+        
+        $crendenciales = request()->only('email', 'password');
+        if (Auth::attempt($crendenciales)){
+            request()->session()->regenerate();
+            return redirect('Dashboard');
+        }else{
+            return redirect('No encontrado');
+        }
+        // $request->validate([
+        //     'email'=>'required|email',
+        //     'password'=>'required',
+        // ]);
+        // $user=User::where('email',$request->email)->first();
 
-        if(!$user || !Hash::check($request->password, $user->password)){
-            return view('/Not-found');
-        }
-        if($user->tipo == '1')
-        {
-            $token=$user->createToken($request->email, ['admin:admin'])->plainTextToken;
-            return response()->json(["token"=>$token],201);
-        }
-        else
-        {
-            $token=$user->createToken($request->email, ['user:user'])->plainTextToken;
-            return view('/home');
-            return response()->json(["token"=>$token],201);
-            $name=$request->get('name');
-    
-            
-        }
+        // if(!$user || !Hash::check($request->password, $user->password)){
+        //     return view('/Not-found');
+        // }
+        // if($user->tipo == '1')
+        // {
+        //     $token=$user->createToken($request->email, ['admin:admin'])->plainTextToken;
+        //     return response()->json(["token"=>$token],201);
+        // }
+        // else
+        // {
+        //     $token=$user->createToken($request->email, ['user:user'])->plainTextToken;
+        //     // return view('/home');
+        //     // return response()->json(["token"=>$token],201);
+        //     return redirect()->route('Perfil');    
+        // }
         
     }
 
     public function logoutUser(Request $request){
 
-        return response()->json(["destroyed" => $request->user()->tokens()->delete()],200);
-        return view('welcome');
+       Auth::logout();
+       $request->session()->invalidate();
+       $request->session()->regenerateToken();
+       return redirect('/');
     }
 
     public function VerifiedCode(Request $request){
@@ -73,7 +83,7 @@ class UserController extends Controller
         
 
         if ($request->code = $userF->code) {
-            return view('welcome');
+            return redirect('/');
         }else{
             return view('code-not');
         }
@@ -81,6 +91,6 @@ class UserController extends Controller
     }
 
     public function Returnwelcome(){
-        return view('/welcome');
+        return redirect('/');
     }
 }

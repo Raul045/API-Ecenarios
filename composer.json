@@ -15,7 +15,8 @@
         "laravel/framework": "^7.29",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "2.4"
+        "laravel/ui": "2.4",
+        "mailjet/mailjet-apiv3-php": "^1.5"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

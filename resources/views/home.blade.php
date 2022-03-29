@@ -8,14 +8,11 @@
     <title>Bienvenido</title>
 </head>
 <body>
-    <div class="bienv">
-        <h1>Bienvenido: {{ auth()->name }} </h1>
-    </div>
-    <br><br>
-    <div class="booton">
-        <form action="/LogOut" method='DELETE'>
-            <button class="submit" type="submit" value="">Cerrar Sesion</button>
-        </form>
-    </div>
+
+    <form action="/LogOut" method='POST'>
+     @csrf
+        <label for=""><h1>Bienvenido {{ auth()->user()->name }}</h1></label>    
+        <button class="submit" type="submit" value="">Cerrar Sesion</button>
+    </form>
 </body>
 </html>

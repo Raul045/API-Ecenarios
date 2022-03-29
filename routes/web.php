@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::view('/', 'welcome')->name('welcome')->middleware('guest');
-Route::view('/verified', 'Verificacion')->middleware('auth');
-Route::view('/Dashboard', 'home')->middleware('auth');
+Route::view('/verified', 'Verificacion');
+Route::view('/Dashboard', 'home')->middleware('auth')->name('home');
 // Route::view('/Dashboard', 'home')->middleware(checklogin::class);
 Route::view('/No encontrado', 'Not-found');
 Route::view('/Codigo null', 'code-not');
@@ -31,13 +31,15 @@ Route::view('/Codigo null', 'code-not');
 
 Auth::routes();
 
-Route::get('/welcome', 'UserController@Returnwelcome');
+Route::post('/', 'UserController@Returnwelcome');
 
 Route::post('/Registro', 'UserController@AgregarUser')->name('Registro');
 Route::post('/Login', 'UserController@LoginUser', function(){
     console.log(request);
 });
+
+Route::get('/perfil', 'UserController@indexper')->name('Perfil')->middleware();
 Route::post('/verificacion', 'UserController@VerifiedCode');
 //Rutas protegidas
-Route::delete('/LogOut','UserController@logoutUser');
+Route::post('/LogOut','UserController@logoutUser')->name('LogOut');
 

@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/welcome" method="POST">
+    <form action="/" method="POST">
         @csrf
         <div class="mensaje">
             <h1>Lo sentimos pero los datos no son correctos</h1>
