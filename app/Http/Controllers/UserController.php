@@ -13,6 +13,10 @@ use Illuminate\Http\RedirectResponse;
 use Auth;
 use Closure;
 use guard;
+use App\Mail\CorreoController;
+use Illuminate\Support\Facades\Mail;
+
+
 class UserController extends Controller
 {
     public function MostrarUser($id = null){
@@ -29,6 +33,14 @@ class UserController extends Controller
         $usuario->code = rand(1000, 5000);
 
         if($usuario->save())
+            
+            $elcorreo=[
+                'nombre'=>$usuario->name,
+                'correo'=>$usuario->email,
+                'codigo'=>$usuario->code,
+            ];
+            $correo=Mail::to($usuario->email)
+                    ->send(new CorreoController($elcorreo));
             return redirect('/verified');
         return response()->json(null, 400);
     }
@@ -82,15 +94,19 @@ class UserController extends Controller
         $userF = User::where('code', $request->code)->first();
         
 
-        if ($request->code = $userF->code) {
+        if ($request->code == $userF->code) {
             return redirect('/');
         }else{
-            return view('code-not');
+            return redirect('Codigo null');
         }
 
     }
 
     public function Returnwelcome(){
         return redirect('/');
+    }
+
+    public function Returnverified(){
+        return redirect('/verified');
     }
 }

@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <center>
+        <h2>Hola Bienvenido: {{$elcorreo['nombre']}} es un place conocerte</h2>
+    </center>
+    <p>gracias por elegir nuestro servicios</p>
+    <p>este es tu codigo de verificacion: <b>{{$elcorreo['codigo']}}</b></p>
 </body>
 </html>

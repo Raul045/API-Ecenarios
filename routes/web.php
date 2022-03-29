@@ -32,6 +32,7 @@ Route::view('/Codigo null', 'code-not');
 Auth::routes();
 
 Route::post('/', 'UserController@Returnwelcome');
+Route::post('/verified', 'UserController@Returnverified');
 
 Route::post('/Registro', 'UserController@AgregarUser')->name('Registro');
 Route::post('/Login', 'UserController@LoginUser', function(){
